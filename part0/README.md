@@ -36,3 +36,39 @@
     deactivate web_server
 
     Note right of client_browser: Browser executes callback, rendering the complete list of notes.
+
+
+    05.
+
+    sequenceDiagram
+    participant user_device as User's Browser
+    participant backend_api as Server Backend
+
+    Note right of user_device: User navigates to the Single-Page App (SPA) URL.
+    user_device->>backend_api: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate backend_api
+    backend_api-->>user_device: HTML document
+    deactivate backend_api
+
+    user_device->>backend_api: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate backend_api
+    backend_api-->>user_device: the CSS file
+    deactivate backend_api
+
+    user_device->>backend_api: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate backend_api
+    backend_api-->>user_device: the SPA JavaScript file
+    deactivate backend_api
+
+    Note right of user_device: Browser executes the SPA application logic (spa.js),<br/>which immediately requests the notes data.
+
+    user_device->>backend_api: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate backend_api
+    backend_api-->>user_device: JSON data (list of notes)
+    deactivate backend_api
+
+    Note right of user_device: The JS application receives the JSON data and renders the notes onto the page dynamically.
+
+    06.
+
+    
