@@ -67,7 +67,9 @@
     Note right of browser: The browser renders the updated notes list.
 
 
-5.
+
+
+05.
     sequenceDiagram
     participant user as User
     participant browser as Browser
