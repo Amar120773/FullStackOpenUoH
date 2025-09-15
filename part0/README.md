@@ -71,4 +71,26 @@
 
     06.
 
+    sequenceDiagram
+    participant user_device as User's Browser
+    participant backend_api as Server Backend
+
+    Note right of user_device: User, while on the SPA page, types a new note and clicks 'save'.
+    Note right of user_device: The JavaScript client intercepts this action.
+
+    user_device->>backend_api: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate backend_api
+    Note left of backend_api: Server receives the JSON payload, processes it, saves the new note.
+    backend_api-->>user_device: HTTP 201 Created (Success confirmation)
+    deactivate backend_api
+
+    Note right of user_device: The JS application's event handler receives the success confirmation.<br/>It knows the server has new data, so it requests the full notes list again to sync the display.
+
+    user_device->>backend_api: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate backend_api
+    backend_api-->>user_device: Updated JSON data (including the new note)
+    deactivate backend_api
+
+    Note right of user_device: The JS application re-renders the note list on the page dynamically.<br/>The page itself never reloads.
+
     
