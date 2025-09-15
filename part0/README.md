@@ -1,4 +1,4 @@
-)4.
+4.
 
 sequenceDiagram
     participant user as User
@@ -65,3 +65,54 @@ sequenceDiagram
     
 
     Note right of browser: The browser renders the updated notes list.
+
+
+    5. 
+    sequenceDiagram
+    participant user as User
+    participant browser as Browser
+    participant server as Server
+
+    Note right of user: User opens the SPA notes page
+    user->>browser: Enters [https://studies.cs.helsinki.fi/exampleapp/spa](https://studies.cs.helsinki.fi/exampleapp/spa)
+    browser->>server: GET [https://studies.cs.helsinki.fi/exampleapp/spa](https://studies.cs.helsinki.fi/exampleapp/spa)
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET [https://studies.cs.helsinki.fi/exampleapp/main.css](https://studies.cs.helsinki.fi/exampleapp/main.css)
+    activate server
+    server-->>browser: main.css
+    deactivate server
+
+    browser->>server: GET [https://studies.cs.helsinki.fi/exampleapp/spa.js](https://studies.cs.helsinki.fi/exampleapp/spa.js)
+    activate server
+    server-->>browser: spa.js
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript,<br/>which fetches the existing notes from the server.
+
+    browser->>server: GET [https://studies.cs.helsinki.fi/exampleapp/data.json](https://studies.cs.helsinki.fi/exampleapp/data.json)
+    activate server
+    server-->>browser: JSON data with existing notes
+    deactivate server
+
+    Note right of browser: The browser renders the notes on the page.
+    Note right of user: User enters a new note and clicks 'save'.
+
+    user->>browser: Clicks 'save' button
+    Note right of browser: The browser creates a new note object<br/>and sends it as JSON to the server.
+    browser->>server: POST [https://studies.cs.helsinki.fi/exampleapp/new_note_spa](https://studies.cs.helsinki.fi/exampleapp/new_note_spa)
+    activate server
+    server-->>browser: HTTP 201 Created (or similar)
+    deactivate server
+
+    Note right of browser: The browser then fetches the updated list of notes<br/>to render the new note without reloading the page.
+    browser->>server: GET [https://studies.cs.helsinki.fi/exampleapp/data.json](https://studies.cs.helsinki.fi/exampleapp/data.json)
+    activate server
+    server-->>browser: Updated JSON data with the new note
+    deactivate server
+
+    Note right of browser: The browser updates the list of notes on the page.
+
+
